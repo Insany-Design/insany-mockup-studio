@@ -1,11 +1,51 @@
 # Insany Mockup Studio
 
-Editor estático sem dependências de build. Inicie `python3 -m http.server 4173 --directory dist` e abra http://localhost:4173.
+Editor online de mockups Insany com upload da imagem da tela, perspectiva, ajustes de cor e exportação na resolução nativa.
 
-13 mockups nativos 2304×3072. A prévia usa WebGL a 768×1024; a exportação usa o mesmo shader no tamanho declarado no catálogo. Canvas menor nunca é ampliado para exportar. PNG sem perdas ou JPEG qualidade 0,98.
+[Abrir o editor](https://insany-mockup-studio.insany-team-1573.chatgpt.site) — acesso privado com ChatGPT.
 
-Upload e composição acontecem no navegador; o arquivo enviado não é transmitido. Ajustes por modelo persistem localmente; arquivos enviados duram apenas a sessão. Restaurar devolve a arte original e os ajustes padrão. Duplo clique num slider restaura só aquele controle.
+## Rodar localmente
 
-O corpo recebe uma tonalização via máscara de geometria. Brilho, contraste, saturação e temperatura são ajustes de pós-produção separados para tela/cena. Vidro é uma aproximação estática ajustável; não há relighting físico nem nova geometria no navegador.
+Requisitos: Python 3 e navegador com WebGL. Não há dependências de build.
 
-Ativos derivados da coleção Insany Revision05. Fontes Blender preservadas. Modelo 07 não incluído por existir apenas prévia aprovada para separação do lote final. Fontes e QA estão registrados no task-spec e na pasta qa do projeto pai.
+```sh
+git clone git@github.com:gilberto-insany/insany-mockup-studio.git
+cd insany-mockup-studio
+python3 -m http.server 4173 --directory dist
+```
+
+Abra http://localhost:4173. Sirva a pasta por HTTP; abrir o HTML diretamente pelo sistema de arquivos não carrega o catálogo.
+
+## Recursos
+
+- 13 mockups com camadas nativas de 2304 × 3072 pixels.
+- Upload PNG, JPEG ou WebP, com encaixe completo ou preenchimento, zoom e posição.
+- Brilho, contraste, saturação e temperatura separados para tela e cena.
+- Tonalização do metal com máscara de geometria e intensidade ajustável do reflexo do vidro.
+- PNG sem perdas ou JPEG com qualidade 98%, sempre no tamanho nativo declarado no catálogo.
+
+A prévia usa WebGL em 768 × 1024 pixels; a exportação executa o mesmo shader diretamente na resolução nativa. A prévia menor não é ampliada para gerar o arquivo final. O navegador avisa quando a arte enviada tem poucos pixels para a área de aplicação.
+
+## Arquivos e privacidade
+
+Upload e composição acontecem no navegador; o arquivo enviado não é transmitido ao servidor. Ajustes por modelo persistem no armazenamento local. As imagens enviadas duram apenas a sessão. Restaurar devolve a arte original e os ajustes padrão. Duplo clique em um slider restaura apenas aquele controle.
+
+## Estrutura
+
+```text
+dist/
+  index.html        Interface
+  style.css         Estilos responsivos
+  app.js            Controles, upload e exportação
+  renderer.js       Composição WebGL e homografia
+  assets/
+    catalog.json    Modelos e coordenadas de projeção
+    01/ … 14/       Base, tela, máscaras, vidro e oclusão
+.openai/hosting.json Configuração da publicação existente em Sites
+```
+
+Os ativos derivam da coleção Insany Revision05. O modelo 07 não está incluído no catálogo final. Este repositório contém o editor e seus ativos; os arquivos de modelagem Blender são mantidos separadamente.
+
+Os controles de cor atuam em pós-produção. O vidro é uma aproximação estática ajustável; alterações físicas de iluminação e geometria exigem novo render no Blender.
+
+Código e ativos pertencem à Insany. Nenhuma licença pública de redistribuição é concedida por este repositório.
