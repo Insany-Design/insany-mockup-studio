@@ -16,6 +16,16 @@ python3 -m http.server 4173 --directory dist
 
 Abra http://localhost:4173. Sirva a pasta por HTTP; abrir o HTML diretamente pelo sistema de arquivos não carrega o catálogo.
 
+## Publicar na Vercel
+
+Conecte o repositório `Insany-Design/insany-mockup-studio` e mantenha **Root Directory** na raiz do repositório. O `vercel.json` define **Framework Preset: Other**, pula a instalação e o build e publica somente a pasta `dist/`.
+
+O editor já está pronto em `dist/index.html`, com JavaScript, estilos e ativos locais. Não há pacotes para instalar nem arquivos para compilar. Sem essa configuração, a Vercel pode publicar a raiz do repositório, onde não há `index.html`, e retornar 404 mesmo com o deploy concluído.
+
+Depois de integrar a configuração, faça um novo deploy do commit atualizado. A configuração de publicação no ChatGPT Sites continua em `.openai/hosting.json`.
+
+Referência: [configuração de projetos da Vercel](https://vercel.com/docs/project-configuration/vercel-json).
+
 ## Recursos
 
 - 13 mockups com camadas nativas de 2304 × 3072 pixels.
